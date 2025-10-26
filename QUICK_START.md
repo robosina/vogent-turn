@@ -29,6 +29,23 @@ Edit `vogent_turn/inference.py`:
 - Line 294: Add `.float()` before `.cpu().numpy()`
 - Line 433: Add `.float()` before `.cpu().numpy()`
 
+## Troubleshooting
+
+**Disk Space Error?**
+```bash
+conda clean --all -y && pip cache purge
+```
+
+**Package Conflicts?**
+```bash
+pip install jmespath accelerate python-dateutil
+pip install --force-reinstall --no-deps packaging regex safetensors
+```
+
+**403 Model Access Error?**
+- Request access at https://huggingface.co/vogent/Vogent-Turn-80M
+- Then run: `huggingface-cli login`
+
 ## Performance Summary
 
 | Metric | Single | Batch (32) |

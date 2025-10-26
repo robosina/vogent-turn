@@ -45,6 +45,41 @@ huggingface-cli login
 
 **Request access:** https://huggingface.co/vogent/Vogent-Turn-80M
 
+### Common Installation Issues
+
+**Issue 1: Disk Space Error**
+```bash
+# Error: No space left on device
+# Solution: Clean caches before installation
+conda clean --all -y
+pip cache purge
+```
+
+**Issue 2: Package Conflicts**
+```bash
+# If packages are being loaded from ~/.local instead of conda env
+# Solution: Install missing dependencies in conda env
+pip install jmespath accelerate python-dateutil boto3 s3transfer
+pip install --force-reinstall --no-deps packaging regex safetensors
+```
+
+**Issue 3: BFloat16 TypeError**
+```python
+# Error: TypeError: Got unsupported ScalarType BFloat16
+# Solution: Convert to float32 before numpy conversion
+# In vogent_turn/inference.py (lines 294 & 433):
+probs = torch.softmax(logits, dim=1)[0].float().cpu().numpy()  # Add .float()
+```
+
+**Issue 4: Model Access (403 Forbidden)**
+```bash
+# Error: Cannot access gated repo
+# Solution: 
+# 1. Visit https://huggingface.co/vogent/Vogent-Turn-80M
+# 2. Click "Request Access"
+# 3. Login: huggingface-cli login
+```
+
 ---
 
 ## Performance Results
